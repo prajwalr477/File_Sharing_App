@@ -9,10 +9,10 @@ const Auth = ({ onAuthSuccess }) => {
   const [signupData, setSignupData] = useState({ name: '', password: '', confirmPassword: '' });
   const [passwordStrength, setPasswordStrength] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Hook to handle navigation
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // If user is already logged in, redirect to home
+    // Check if user is already logged in and redirect
     if (localStorage.getItem('token')) {
       navigate('/home');
     }
@@ -81,7 +81,7 @@ const Auth = ({ onAuthSuccess }) => {
       if (response.data.token) {
         alert('Login successful!');
         localStorage.setItem('token', response.data.token); // Save JWT token
-        onAuthSuccess(); // Notify parent component
+        if (onAuthSuccess) onAuthSuccess(); // Notify parent component on successful login
         navigate('/home'); // Redirect to the Home page
         setLoginData({ name: '', password: '' }); // Clear form
       }
