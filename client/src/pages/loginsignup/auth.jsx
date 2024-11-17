@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client'; // Import socket.io-client
 import './auth.css';
 
 const Auth = ({ onAuthSuccess }) => {
@@ -10,6 +11,9 @@ const Auth = ({ onAuthSuccess }) => {
   const [passwordStrength, setPasswordStrength] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  // Initialize socket connection
+  const socket = io('http://localhost:5000'); // Make sure this URL matches your backend URL
 
   useEffect(() => {
     // Check if user is already logged in and redirect
@@ -82,6 +86,11 @@ const Auth = ({ onAuthSuccess }) => {
         alert('Login successful!');
         localStorage.setItem('token', response.data.token); // Save JWT token
         if (onAuthSuccess) onAuthSuccess(); // Notify parent component on successful login
+
+        // Register user with socket after login
+        socket.emit('register-user', loginData.name); // Emit username to server
+        console.log('User registered:', loginData.name);
+
         navigate('/home'); // Redirect to the Home page
         setLoginData({ name: '', password: '' }); // Clear form
       }
@@ -106,6 +115,10 @@ const Auth = ({ onAuthSuccess }) => {
         alert('Signup successful!');
         setSignupData({ name: '', password: '', confirmPassword: '' }); // Clear form
         setIsLoginVisible(true);
+
+        // Register user with socket after signup
+        socket.emit('register-user', signupData.name); // Emit username to server
+        console.log('User registered:', signupData.name);
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Server error.');

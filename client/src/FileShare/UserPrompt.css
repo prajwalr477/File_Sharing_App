@@ -1,0 +1,77 @@
+.user-prompt-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+  }
+  
+  .user-prompt-container input {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+  }
+  
+  .user-prompt-container button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .user-prompt-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .status-message {
+    margin-top: 20px;
+    color: #333;
+    font-size: 16px;
+  }
+  
+
+
+  /* UserPrompt.css */
+.user-prompt-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+p {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+p.offline {
+  color: red;
+}
+
+p.request-sent {
+  color: orange;
+}
+
+p.request-accepted {
+  color: green;
+}

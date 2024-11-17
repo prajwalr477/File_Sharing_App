@@ -23,30 +23,114 @@ mongoose
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: '*', // Allow all origins, adjust if necessary in production
     methods: ['GET', 'POST'],
   },
 });
 
+// In-memory store for connected users
+const users = {};
+
+// In-memory store for pending requests
+const pendingRequests = {};  // { toUsername: [{ fromUsername, socketId }] }
+
 io.on('connection', (socket) => {
   console.log(`Client connected: ${socket.id}`);
 
-  socket.on('offer', (offer) => {
-    console.log(`Offer received from ${socket.id}`, offer);
-    socket.broadcast.emit('offer', offer);
+  // Register a user with their username
+  socket.on('register-user', (username) => {
+    users[username] = socket.id;
+    console.log(`User registered: ${username} with socket ID: ${socket.id}`);
+
+    // If there are pending requests for this user, notify them
+    if (pendingRequests[username]) {
+      pendingRequests[username].forEach(request => {
+        io.to(socket.id).emit('connection-request', { fromUsername: request.fromUsername });
+      });
+      // Clear the pending requests after notifying
+      delete pendingRequests[username];
+    }
   });
 
-  socket.on('answer', (answer) => {
-    console.log(`Answer received from ${socket.id}`, answer);
-    socket.broadcast.emit('answer', answer);
+  // When a connection request is sent
+  socket.on('connection-request', ({ toUsername, fromUsername }) => {
+    const targetSocketId = users[toUsername];
+    
+    if (targetSocketId) {
+      // User is online, send request
+      io.to(targetSocketId).emit('connection-request', { fromUsername });
+      console.log(`Connection request sent from ${fromUsername} to ${toUsername}`);
+    } else {
+      // User is offline, store the request
+      console.log(`User ${toUsername} is offline. Storing request.`);
+      if (!pendingRequests[toUsername]) {
+        pendingRequests[toUsername] = [];
+      }
+      pendingRequests[toUsername].push({ fromUsername, socketId: socket.id });
+      console.log(`Connection request stored for ${toUsername} from ${fromUsername}`);
+      socket.emit('connection-denied', { message: 'User not available or not logged in.' });
+    }
   });
 
-  socket.on('ice-candidate', (candidate) => {
-    socket.broadcast.emit('ice-candidate', candidate);
+  // Handle connection response (accept/decline)
+  socket.on('connection-response', ({ toUsername, accepted }) => {
+    const targetSocketId = users[toUsername];
+    if (targetSocketId) {
+      if (accepted) {
+        io.to(targetSocketId).emit('connection-approved');
+        console.log(`Connection approved by ${toUsername}`);
+      } else {
+        io.to(targetSocketId).emit('connection-denied', { message: 'Connection request denied.' });
+        console.log(`Connection denied by ${toUsername}`);
+      }
+    } else {
+      // Handle case where the user isn't online
+      socket.emit('connection-denied', { message: 'User not available or not logged in.' });
+    }
+
+    // If user was offline, clear the pending request
+    if (pendingRequests[toUsername]) {
+      pendingRequests[toUsername] = pendingRequests[toUsername].filter(request => request.fromUsername !== toUsername);
+    }
   });
 
+  // Handle WebRTC signaling
+  socket.on('offer', (offer, toUsername) => {
+    const targetSocketId = users[toUsername];
+    if (targetSocketId) {
+      io.to(targetSocketId).emit('offer', offer);
+      console.log(`Offer forwarded to ${toUsername}`);
+    }
+  });
+
+  socket.on('answer', (answer, toUsername) => {
+    const targetSocketId = users[toUsername];
+    if (targetSocketId) {
+      io.to(targetSocketId).emit('answer', answer);
+      console.log(`Answer forwarded to ${toUsername}`);
+    }
+  });
+
+  socket.on('ice-candidate', (candidate, toUsername) => {
+    const targetSocketId = users[toUsername];
+    if (targetSocketId) {
+      io.to(targetSocketId).emit('ice-candidate', candidate);
+    }
+  });
+
+  socket.on('logout', (data) => {
+    console.log(`User logged out: ${data.user}`);
+  });
+
+  // Clean up on disconnect
   socket.on('disconnect', () => {
-    console.log(`Client disconnected: ${socket.id}`);
+    for (const [username, socketId] of Object.entries(users)) {
+      if (socketId === socket.id) {
+        delete users[username];
+        console.log(`User disconnected: ${username}`);
+        break;
+      }
+    }
   });
 });
 
