@@ -1,30 +1,41 @@
 import React, { useEffect } from 'react';
 import { useRoutes } from 'react-router-dom';
-import HomePage from './pages/Home';  // Example Home page
-import Auth from './pages/loginsignup/auth';  // Example Login/Signup page
-import FileShare from './FileShare/FileShare';  // FileShare page
-import UserPrompt from './FileShare/UserPrompt';  // UserPrompt page (import it here)
-import { socket } from './socket';  // Import the socket instance
+import HomePage from './pages/Home';
+import Auth from './pages/loginsignup/auth';
+import FileShare from './FileShare/FileShare';
+import UserPrompt from './FileShare/UserPrompt';
+import { socket } from './socket';
+import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
+import Receiver from './FileShare/Receiver';
 
 const App = () => {
   // Define the routes
   const routes = [
-    { path: '/', element: <Auth /> },  // Login page
-    { path: '/home', element: <HomePage /> },  // Home page
-    { path: '/user-prompt', element: <UserPrompt /> },  // UserPrompt page
-    { path: '/file-share', element: <FileShare /> },  // FileShare page
+    { path: '/', element: <Auth /> }, // Login page
+    { path: '/home', element: <HomePage /> }, // Home page
+    {
+      path: '/file-share', 
+      element: <ProtectedRoute><FileShare /></ProtectedRoute> // Protected route for FileShare
+    },
+    {
+      path: '/user-prompt', 
+      element: <ProtectedRoute><UserPrompt /></ProtectedRoute> // Protected route for UserPrompt
+    },
+    {path:"/receiver" ,
+      element:<Receiver />
+    },
+    // Fallback route for unmatched paths
+    { path: '*', element: <div>Page Not Found</div> }
   ];
 
-  // Initialize the routes
+  // Get the elements for the routes
   const element = useRoutes(routes);
 
-  // Ensuring socket connection persists across all route changes
   useEffect(() => {
     if (!socket.connected) {
-      socket.connect(); // Make sure the socket connection is established once on app load
+      socket.connect(); // Ensure socket connection
     }
 
-    // Socket event listeners (optional)
     socket.on('connect', () => {
       console.log('Socket connected:', socket.id);
     });
@@ -33,14 +44,17 @@ const App = () => {
       console.log('Socket disconnected');
     });
 
-    // Cleanup socket event listeners when component unmounts
     return () => {
       socket.off('connect');
       socket.off('disconnect');
     };
-  }, []);  // Empty array ensures this effect only runs on mount
+  }, []);
 
-  return element;  // Return the routes element
+  return (
+    <div>
+      {element} {/* Render the routes directly */}
+    </div>
+  );
 };
 
 export default App;

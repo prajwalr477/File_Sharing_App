@@ -1,0 +1,63 @@
+/* Fix header at the top of the screen */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f0f0f0; /* Light gray background */
+  padding: 10px 20px;
+  z-index: 1000; /* Ensure the header is always on top */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for better visual effect */
+}
+
+/* Flexbox container for the header */
+nav {
+  display: flex;
+  justify-content: space-between; /* Space out the nav items and notifications */
+  align-items: center;
+  width: 100%;
+}
+
+/* Centering the links in the nav */
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 20px;
+  margin: 0; /* Remove default margin */
+}
+
+/* Style for nav links */
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Notification styling */
+.notifications {
+  position: relative;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  display: none;
+}
+
+.notifications:hover .notification-dropdown {
+  display: block;
+}
+
+/* Main content padding to prevent overlap with fixed header */
+main {
+  margin-top: 100px; /* Adjust the space below the header */
+  padding: 20px;
+}
+
+#home {
+  text-align: center; /* Center home page text */
+}
