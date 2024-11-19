@@ -43,60 +43,46 @@ io.on('connection', (socket) => {
   /**
    * File sharing events
    */
-  socket.on('sender-join', (data) => {
+  socket.on("sender-join", (data) => {
     const { uid } = data;
+    console.log(`Sender joined Room ID: ${uid}`);
     socket.join(uid);
-    console.log(`Sender joined with ID: ${uid}`);
   });
-
-  socket.on('receiver-join', (data) => {
-    const { uid, sender_uid } = data;
+  
+  socket.on("receiver-join", (data) => {
+    const { uid } = data;
+    console.log(`Receiver joined Room ID: ${uid}`);
     socket.join(uid);
-    console.log(`Receiver joined with ID: ${uid}, connected to sender: ${sender_uid}`);
-    // Notify sender to start the file transfer to this receiver
-    socket.to(sender_uid).emit('init', uid);
+    socket.to(uid).emit("init", socket.id);
   });
-
+  
+  socket.on("file-meta", (data) => {
+    const { uid, metadata } = data;
+    console.log(`Metadata received for Room ID: ${uid}`);
+    socket.to(uid).emit("file-meta", metadata);
+  });
+  
   socket.on("fs-start", (data) => {
     const { uid } = data;
-    socket.to(uid).emit("fs-share", {}); // Signal receiver to prepare for file chunks
-});
-
-socket.on("file-raw", (data) => {
-    const { uid, buffer } = data;
-    socket.to(uid).emit("file-raw", buffer);
-});
-
-
-  socket.on('file-meta', (data) => {
-    const { uid, metadata } = data;
-    console.log(`File metadata received for session ${uid}:`, metadata);
-
-    // Ensure that the receiver has already joined
-    socket.to(uid).emit('file-meta', metadata); // Emit metadata to the receiver
-});
-
-socket.on('receiver-join', (data) => {
-  const { uid, sender_uid } = data;
-  socket.join(uid);
-  console.log(`Receiver joined with ID: ${uid}, connected to sender: ${sender_uid}`);
-  // Notify the sender that the receiver is ready to receive the file
-  socket.to(sender_uid).emit('init', uid);
-});
-
-
-
-  socket.on('disconnect', () => {
-    console.log(`Socket disconnected: ${socket.id}`);
-    for (const [username, socketId] of Object.entries(users)) {
-      if (socketId === socket.id) {
-        delete users[username];
-        console.log(`User disconnected: ${username}`);
-        break;
-      }
-    }
+    console.log(`Receiver requesting next chunk for Room ID: ${uid}`);
+    socket.to(uid).emit("fs-share");
   });
-});
+  
+  socket.on("file-raw", (data) => {
+    const { uid, buffer } = data;
+  
+    if (!uid || !buffer) {
+      console.error("Invalid data in file-raw event. Ensure Room ID and buffer are provided.");
+      return;
+    }
+  
+    console.log(
+      `Chunk received for Room ID: ${uid}, chunk size: ${buffer.byteLength}`
+    );
+    socket.to(uid).emit("file-raw", { buffer });
+  });
+  
+});  
 
 // Define port and start the server
 const PORT = process.env.PORT || 5000;

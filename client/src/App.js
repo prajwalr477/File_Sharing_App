@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useRoutes } from 'react-router-dom';
 import HomePage from './pages/Home';
 import Auth from './pages/loginsignup/auth';
-import FileShare from './FileShare/FileShare';
+import SenderApp from './FileShare/FileShare';
+import ReceiverApp from './FileShare/Receiver';
 import UserPrompt from './FileShare/UserPrompt';
 import { socket } from './socket';
 import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
-import Receiver from './FileShare/Receiver';
+//import Receiver from './FileShare/Receiver';
 
 const App = () => {
   // Define the routes
@@ -15,14 +16,14 @@ const App = () => {
     { path: '/home', element: <HomePage /> }, // Home page
     {
       path: '/file-share', 
-      element: <ProtectedRoute><FileShare /></ProtectedRoute> // Protected route for FileShare
+      element: <ProtectedRoute><SenderApp /></ProtectedRoute> // Protected route for FileShare
     },
     {
       path: '/user-prompt', 
       element: <ProtectedRoute><UserPrompt /></ProtectedRoute> // Protected route for UserPrompt
     },
     {path:"/receiver" ,
-      element:<Receiver />
+      element:<ReceiverApp />
     },
     // Fallback route for unmatched paths
     { path: '*', element: <div>Page Not Found</div> }
