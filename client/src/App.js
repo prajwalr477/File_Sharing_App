@@ -7,6 +7,7 @@ import ReceiverApp from './FileShare/Receiver';
 import UserPrompt from './FileShare/UserPrompt';
 import { socket } from './socket';
 import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
+import LinkShare from './LinkShare/LinkShare';
 //import Receiver from './FileShare/Receiver';
 
 const App = () => {
@@ -24,6 +25,9 @@ const App = () => {
     },
     {path:"/receiver" ,
       element:<ReceiverApp />
+    },
+    {path:"/share-link" ,
+      element:<LinkShare />
     },
     // Fallback route for unmatched paths
     { path: '*', element: <div>Page Not Found</div> }

@@ -1,7 +1,7 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js'; 
 
 const router = express.Router();
 
@@ -31,16 +31,14 @@ router.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({ name, password: hashedPassword });
-    await newUser.save();  // Save the user to MongoDB
+    await newUser.save(); // Save the user to MongoDB
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (error) {
-    console.error('Error during registration:', error.message);  // Log the specific error message
+    console.error('Error during registration:', error.message); // Log the specific error message
     res.status(500).json({ message: 'An error occurred during registration.' });
   }
 });
-
-
 
 // Login Route
 router.post('/login', async (req, res) => {
@@ -77,5 +75,4 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
-module.exports = router;
+export default router;
