@@ -4,25 +4,20 @@ import { io } from "socket.io-client";
 const SenderApp = () => {
   const [joinID, setJoinID] = useState("");
   const [activeScreen, setActiveScreen] = useState("join-screen");
-  const [fileTransfer, setFileTransfer] = useState({
-    file: null,
-    buffer: null,
-    progress: 0,
-  });
+  const [uploadedFiles, setUploadedFiles] = useState([]); // List to store all uploaded files
 
   const socket = useRef(null);
-  const joinIDRef = useRef(""); // Use a ref for Room ID
+  const joinIDRef = useRef("");
+  const fileBufferRef = useRef(null);
 
   useEffect(() => {
     socket.current = io("http://localhost:5000");
 
-    // Handle the init event
     socket.current.on("init", (uid) => {
       console.log(`Receiver connected with ID: ${uid}`);
-      setActiveScreen("fs-screen"); // Switch to the file-sharing screen
+      setActiveScreen("fs-screen");
     });
 
-    // Handle fs-share event
     socket.current.on("fs-share", () => {
       console.log("Receiver requested file chunk. Sending next chunk...");
       sendNextChunk();
@@ -42,27 +37,32 @@ const SenderApp = () => {
   const handleCreateRoom = () => {
     const newJoinID = generateID();
     setJoinID(newJoinID);
-    joinIDRef.current = newJoinID; // Update the ref
-    console.log(`Room created with ID: ${newJoinID}`);
+    joinIDRef.current = newJoinID;
     socket.current.emit("sender-join", { uid: newJoinID });
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (!file) return;
+    if (!file) {
+      console.error("No file selected.");
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = () => {
       const buffer = new Uint8Array(reader.result);
-      setFileTransfer({
-        file,
-        buffer,
-        progress: 0,
-      });
+      fileBufferRef.current = buffer;
 
-      console.log(`Sending file metadata for Room ID: ${joinIDRef.current}`);
+      // Add the new file to the uploadedFiles list
+      setUploadedFiles((prevFiles) => [
+        ...prevFiles,
+        { name: file.name, size: file.size },
+      ]);
+
+      console.log("File loaded and buffer set:", buffer);
+
       socket.current.emit("file-meta", {
-        uid: joinIDRef.current, // Use ref to ensure the correct Room ID is used
+        uid: joinIDRef.current,
         metadata: {
           filename: file.name,
           total_buffer_size: buffer.length,
@@ -70,49 +70,27 @@ const SenderApp = () => {
         },
       });
     };
+
     reader.readAsArrayBuffer(file);
   };
 
   const sendNextChunk = () => {
-    const currentJoinID = joinIDRef.current;
-    if (!currentJoinID) {
-      console.error("Room ID is missing during chunk emission!");
+    const chunkSize = 1024;
+    const fileBuffer = fileBufferRef.current;
+
+    if (!fileBuffer || fileBuffer.byteLength === 0) {
+      console.warn("No more chunks to send.");
+      fileBufferRef.current = null; // Reset for the next file upload
       return;
     }
-  
-    setFileTransfer((prev) => {
-      if (!prev.buffer || prev.buffer.length === 0) {
-        console.warn("No more chunks to send.");
-        return prev;
-      }
-  
-      const chunkSize = 1024; // Default chunk size
-      const chunk = prev.buffer.slice(0, chunkSize);
-      const remainingBuffer = prev.buffer.slice(chunkSize);
-  
-      console.log(
-        `Sending chunk for Room ID: ${currentJoinID}, chunk size: ${chunk.byteLength}`
-      );
-  
-      socket.current.emit("file-raw", {
-        uid: joinIDRef.current,
-        buffer: chunk,
-      });
-  
-      return {
-        ...prev,
-        buffer: remainingBuffer,
-        progress: Math.trunc(
-          ((prev.file.size - remainingBuffer.length) / prev.file.size) * 100
-        ),
-      };
-    });
-  };
-  
 
-  // Debug fallback: Manually switch screens
-  const handleDebugSwitch = () => {
-    setActiveScreen("fs-screen");
+    const chunk = fileBuffer.slice(0, chunkSize);
+    fileBufferRef.current = fileBuffer.slice(chunkSize);
+
+    socket.current.emit("file-raw", {
+      uid: joinIDRef.current,
+      buffer: chunk,
+    });
   };
 
   return (
@@ -122,20 +100,22 @@ const SenderApp = () => {
           <h2>Create a Room</h2>
           <button onClick={handleCreateRoom}>Create Room</button>
           {joinID && <p>Room ID: {joinID}</p>}
-          <button onClick={handleDebugSwitch}>Debug: Go to File Sharing</button>
         </div>
       )}
 
       {activeScreen === "fs-screen" && (
         <div className="screen fs-screen">
-          <h2>Share a File</h2>
+          <h2>Share Files</h2>
           <input type="file" onChange={handleFileChange} />
-          {fileTransfer.file && (
-            <div>
-              <p>{fileTransfer.file.name}</p>
-              <p>Progress: {fileTransfer.progress}%</p>
-            </div>
-          )}
+
+          <div className="uploaded-files">
+            {uploadedFiles.map((file, index) => (
+              <div key={index} className="file-details">
+                <p>File Name: {file.name}</p>
+                <p>File Size: {(file.size / 1024).toFixed(2)} KB</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
