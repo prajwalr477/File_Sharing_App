@@ -83,6 +83,10 @@ export default function HomePage() {
             <button>Go to FileShare</button>
           </Link>
 
+          <Link to="/share-link">
+            <button>Go to FileShare via link</button>
+          </Link>
+
           <button onClick={handleLogoutClick}>Log Out</button>
         </section>
       </main>
