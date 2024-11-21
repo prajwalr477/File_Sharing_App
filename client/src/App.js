@@ -8,6 +8,9 @@ import UserPrompt from './FileShare/UserPrompt';
 import { socket } from './socket';
 import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
 import LinkShare from './LinkShare/LinkShare';
+import Contact from './pages/Contact';
+import AboutUs from './pages/AboutUs';
+import Faq from './pages/Faq';
 //import Receiver from './FileShare/Receiver';
 
 const App = () => {
@@ -28,6 +31,15 @@ const App = () => {
     },
     {path:"/share-link" ,
       element:<LinkShare />
+    },
+    {path:"/contact" ,
+      element:<Contact />
+    },
+    {path:"/aboutus" ,
+      element:<AboutUs />
+    },
+    {path:"/faq" ,
+      element:<Faq />
     },
     // Fallback route for unmatched paths
     { path: '*', element: <div>Page Not Found</div> }
