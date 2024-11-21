@@ -1,0 +1,55 @@
+footer {
+    background-color: #05445E; 
+    padding: 20px; 
+    height: 20vh;
+    text-align: center; 
+    color: #D4F1F4;
+    line-height: 2.8;
+    bottom: 0;
+    border-top-left-radius: 30%;
+    border-top-right-radius: 30%;
+    margin-top: -50px;
+}
+
+footer p {
+    font-size: larger;
+}
+
+footer nav {
+    display: flex; /* Align the links in a row */
+    justify-content: center; /* Center the links */
+    gap: 30px; /* Add spacing between links */
+    align-items: center;
+}
+
+footer nav a {
+    position: relative; /* Required for the ::after pseudo-element */
+    text-decoration: none; /* Remove underline */
+    font-size: larger;
+    font-weight: 300;
+    color: #D4F1F4;
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+footer nav a:hover {
+    color: #1A1A19; /* Change text color on hover */
+}
+
+footer nav a::after {
+    content: '';
+    position: absolute; /* Positions the underline relative to the parent <a> */
+    width: 100%; /* Full width of the link */
+    height: 4px; /* Thickness of the underline */
+    bottom: -0.2px; /* Position below the text */
+    left: 0;
+    background: linear-gradient(81.02deg, #189AB4 -43.47%, #05445E 5.52%, #75E6DA 134.8%);
+    visibility: hidden; /* Hidden by default */
+    transform: scaleX(0); /* Start with no width */
+    transform-origin: center; /* Animate from the center */
+    transition: all 0.3s ease-in-out; /* Smooth animation */
+}
+
+footer nav a:hover::after {
+    visibility: visible; /* Make the underline visible */
+    transform: scaleX(1); /* Expand underline to full width */
+}

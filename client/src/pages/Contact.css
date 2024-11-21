@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+body {
+    background-color: #189AB4;
+    color: #fff;
+}
+
+h1 {
+    font-size: 125px;
+    margin-bottom: 20px;
+}
+
+/* Styling for Contact Page */
+.contact, .content {
+    text-align: left;
+}
+
+.content {
+    background-color: #189AB4;
+    margin-top: 0;
+    padding: 20px 350px;
+    font-size: x-large;
+    font-weight: 50;
+}
+
+.content p {
+    margin-bottom: 20px;
+}
+
+.content h1{
+    color: #05445E;
+    text-decoration: none;
+    padding-bottom: 70px;
+}
+
+/* Responsive Design for Contact Section */
+@media (max-width: 768px) {
+    .contact, .content {
+        padding: 20px 40px; /* Adjust padding for mobile */
+    }
+
+    .contact h1 {
+        font-size: 3rem; /* Adjust title size for smaller screens */
+    }
+
+    .content p {
+        font-size: 1rem; /* Adjust paragraph size for mobile */
+    }
+}

@@ -9,8 +9,11 @@ import { socket } from './socket';
 import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
 import LinkShare from './LinkShare/LinkShare';
 import Contact from './pages/Contact';
-import AboutUs from './pages/AboutUs';
-import Faq from './pages/Faq';
+import About from './pages/AboutUs';
+import FAQ from './pages/FAQ';
+import PP from './pages/Privacy';
+import Privacy from './pages/Privacy';
+import Home from './pages/Home';
 //import Receiver from './FileShare/Receiver';
 
 const App = () => {
@@ -32,14 +35,20 @@ const App = () => {
     {path:"/share-link" ,
       element:<LinkShare />
     },
+    {path:"/home" ,
+      element:<Home />
+    },
     {path:"/contact" ,
       element:<Contact />
     },
-    {path:"/aboutus" ,
-      element:<AboutUs />
+    {path:"/about" ,
+      element:<About />
     },
     {path:"/faq" ,
-      element:<Faq />
+      element:<FAQ />
+    },
+    {path:"/Privacy" ,
+      element:<Privacy />
     },
     // Fallback route for unmatched paths
     { path: '*', element: <div>Page Not Found</div> }

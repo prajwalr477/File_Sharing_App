@@ -7,33 +7,41 @@
 }
 
 
-
 /* Main Section */
+.nav-bar{
+    background-color: #189AB4;
+    ;
+    color: aliceblue;
+}
+ 
+.nav-bar .links a{
+    color:aliceblue;
+}
 .main-section {
     display: flex;
-    margin-top: 50px; /* Push content below the nav bar */
+    margin-top: 1100px;
+    background-color: #189AB4; /* Push content below the nav bar */
 }
 
 .main-bottom {
-    margin-top: -1rem;
-    background: linear-gradient(to right, #3D132F 0%, #3D132F 100%);
+    padding-top: 2rem;
+    background-color: #189AB4;
     border-bottom-left-radius: 80%;
     border-bottom-right-radius: 80%;
-    height: 11vh;
+    height: 15vh;
     width: 100%;
-    display: flex
-;
+    display: flex;
     padding-bottom: 1rem;
+    justify-content: center;
+    align-items: flex-end; /* Aligns content to the bottom */
 }
-
 .main-left, .main-right {
     width: 50%;
     height: 100vh;
 }
 
 .main-left {
-    background-color: #3D132F;
-    color: #3D132F;
+    color: #189AB4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,38 +54,42 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 60px 10px;
-    gap: 15px;
-    background-color: #3D132F;
+    padding: 90px 10px;
+    gap: -50px;
+    background-color: #189AB4;
     border: 2px dashed #fff;
     border-radius: 12px;
     width: 100%;
     max-width: 350px;
-    height: 350px;border-width: 20px;
+    height: 350px;
+    border-width: 20px;
 }
 
+.conttent{
+    color:#111;
+    padding: 0 280px;
+    line-height: 1.6;
+    font-weight: 100;
 
-button{
+}
+
+button {
     align-items: center;
     justify-content: center;
-    background-color: aliceblue;
-    color: #3D132F;
-    gap: 70px;
+    background-color: #000;
+    color: #05445E;
     width: 200px;
     height: 50px;
     border-radius: 30px;
-    margin-bottom: 20px;
     cursor: pointer;
     font-size: 20px;
     font-weight: 520;
-
 }
 
 .main-right {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #3D132F; /* Light background for better contrast */
+    justify- : center;
+    align-items: center; /* Light background for better contrast */
     padding: 2rem;
 }
 
@@ -113,6 +125,7 @@ button{
     width: 100%;
 }
 
+
 .features-left,
 .features-right {
     display: flex;
@@ -144,7 +157,7 @@ button{
     width: 232px;
     height: 2px;
     margin: 2rem auto;
-    background-color: #7A3D73;
+    background-color: #189AB4;
 }
 
 /* Responsive Design */
@@ -162,15 +175,17 @@ button{
 
 /* Informational Section */
 .info-section {
-    padding: 40px 320px;
-    background-color: #f9f9f9;
+    margin-top:-50px;
+    padding: 40px 20px;
+    background-color: #75E6DA;
+    border-top-left-radius: -80%;
+    border-top-right-radius: -80%;
 }
 
 .info-section .head h1 {
     text-align: center;
     font-size: 2.5rem;
-    color: #512144;
-    margin-bottom: 1rem;
+    color: #05445E;
 }
 
 .info-section .content cite {
@@ -178,9 +193,9 @@ button{
     font-size: large;
     font-weight: 100;
     text-align: center;
+    background-color: #75E6DA;
     color: #333;
     font-style: normal;
-    margin-bottom: 2rem;
     line-height: 1.6;
 }
 
@@ -208,7 +223,7 @@ button{
     align-items: center;
     font-size: 2rem; /* Adjust icon size */
     color: white;
-    background-color: #512144;
+    background-color: #31511E;
     border-radius: 50%; /* Circular icon */
 }
 
@@ -219,21 +234,14 @@ button{
 .block-info h3 {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #512144;
+    color: #189AB4;
     margin-bottom: 10px;
 }
 
 .block-info p {
     font-size: 1rem;
-    color: #555;
+    color: #D4F1F4;
     line-height: 1.6;
-}
-
-.divider-orange {
-    width: 232px;
-    height: 2px;
-    margin: 2rem auto;
-    background-color: #7A3D73;
 }
 
 /* Informational Items */
@@ -252,7 +260,7 @@ button{
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background-color: #512144;
+    background-color: #31511E;
     color: #fff;
     font-size: 30px;
     margin-right: 1rem;
@@ -261,14 +269,13 @@ button{
 
 .block-info {
     flex: 1;
-    
 }
 
 .block-info h3 {
     font-size: 1.75rem;
     font-weight: bold;
     margin: 0 0 0.5rem 0;
-    color: #512144;
+    color: #05445E;
 }
 
 .block-info p {
@@ -278,93 +285,4 @@ button{
     color: #3D132F;
     line-height: 1.5;
     text-align: justify;
-
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .main-section {
-        flex-direction: column;
-    }
-
-    .main-left, .main-right {
-        width: 100%;
-        height: 50vh;
-    }
-
-    .info-section {
-        padding: 1.5rem 1rem;
-    }
-
-    .item-info {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .container-circle-icon {
-        margin-bottom: 1rem;
-    }
-
-    .block-info h3 {
-        font-size: 1.5rem;
-    }
-
-    .block-info p {
-        font-size: 1rem;
-    }
-}
-
-footer{
-    background-color: #3D132F; 
-    padding: 20px; 
-    height: 20vh;
-    text-align: center; 
-    color: #eaeaea;
-    line-height: 2.8;
-    bottom: 0;
-    border-top-left-radius: 30%;
-    border-top-right-radius: 30%;
-}
-
-footer p{
-    font-size: larger;
-}
-
-footer nav {
-    display: flex; /* Align the links in a row */
-    justify-content: center; /* Center the links */
-    gap: 30px; /* Add spacing between links */
-    align-items: center;
-}
-
-footer nav a {
-    position: relative; /* Required for the ::after pseudo-element */
-    text-decoration: none; /* Remove underline */
-    font-size: larger;
-    font-weight: 300;
-    color: #fff;
-    transition: color 0.3s ease; /* Smooth color transition */
-}
-
-footer nav a:hover {
-    color: #ddd; /* Change text color on hover */
-}
-
-footer nav a::after {
-    content: '';
-    position: absolute; /* Positions the underline relative to the parent <a> */
-    width: 100%; /* Full width of the link */
-    height: 2px; /* Thickness of the underline */
-    bottom: -1px; /* Position below the text */
-    left: 0;
-    background: linear-gradient(81.02deg, #021253 -23.47%, #dd65b5 45.52%, #003D9E 114.8%);
-    visibility: hidden; /* Hidden by default */
-    transform: scaleX(0); /* Start with no width */
-    transform-origin: center; /* Animate from the center */
-    transition: all 0.3s ease-in-out; /* Smooth animation */
-}
-
-footer nav a:hover::after {
-    visibility: visible; /* Make the underline visible */
-    transform: scaleX(1); /* Expand underline to full width */
 }

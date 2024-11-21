@@ -71,7 +71,7 @@ const ReceiverApp = () => {
   };
 
   return (
-    <div className="app">
+    <div className="app"style={{justifyContent: 'center', alignContent: 'center'}}>
       {activeScreen === "join-screen" && (
         <div className="screen join-screen active">
           <h2>Join a Room</h2>
@@ -81,12 +81,12 @@ const ReceiverApp = () => {
             value={roomID}
             onChange={(e) => setRoomID(e.target.value)}
           />
-          <button onClick={handleConnect}>Join</button>
+          <button onClick={handleConnect} >Join</button>
         </div>
       )}
 
       {activeScreen === "fs-screen" && (
-        <div className="screen fs-screen">
+        <div className="screen fs-screen" style={{ color: 'black', textAlign: 'center' }}>
           <h2>Receiving Files</h2>
           <div className="file-list">
             {fileTransfers.map((transfer, index) => (

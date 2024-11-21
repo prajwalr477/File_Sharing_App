@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+
+  .container1 {
+    background-image: url('../assets/doodle2.jpg'); /* Replace with your doodle image URL */
+    background-repeat: no-repeat;
+    background-size: cover; /* Adjusts the doodle to cover the entire background */ 
+    background-position: center;
+    width: 1360px;
+    height: 645px;
+    overflow: hidden;
+    display: flex;
+    
+  }
+  
+  .img1 {
+    width: 30%;
+  }
+  
+  .wrapper1 {
+    width: 50%;
+    height: 50%;
+    background-color: #fff;
+    margin: auto;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .h1 {
+    text-align:center;
+    font-size: 40px;
+    font-weight: 600;
+    color: #445A6F;
+    margin: 40px 0;
+  }
+  
+  input {
+    margin: 20px 0;
+    width: 300px;
+    padding: 8px;
+  }
+  
+  input:focus-visible {
+    outline: none;
+  }
+  
+  button {
+    width: 200px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #525b64;
+    border: 1px solid #525b64;
+    color: #fff;
+    font-size: 20px;
+    margin: 30px 0;
+  }

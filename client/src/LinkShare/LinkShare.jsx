@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { uploadFile } from './services/api';
-
+import "./LinkShare.css"
 function LinkShare() {
   const [file, setFile] = useState('');
   const [result, setResult] = useState('');
@@ -28,10 +28,10 @@ function LinkShare() {
   }
 
   return (
-    <div className='container'>
-      <img src={url} className='img' />
-      <div className='wrapper'>
-        <h1>Simple file sharing!</h1>
+    <div className='container1'>
+      
+      <div className='wrapper1'>
+        <h1 className="h1">Simple file sharing!</h1>
         <p>Upload and share the download link.</p>
         
         <button onClick={() => onUploadClick()}>Upload</button>

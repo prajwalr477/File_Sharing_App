@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
-//import './FileShare.css'
+import './FileShare.css';
 
 const SenderApp = () => {
   const [joinID, setJoinID] = useState("");
@@ -97,19 +97,19 @@ const SenderApp = () => {
   return (
     <div className="app">
       {activeScreen === "join-screen" && (
-        <div className="screen join-screen active">
+        <div className="screen join-screen active" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <h2>Create a Room</h2>
           <button onClick={handleCreateRoom}>Create Room</button>
-          {joinID && <p>Room ID: {joinID}</p>}
+          {joinID && <p style={{ color: 'black', textAlign: 'center' }}>Room ID: {joinID}</p>}
         </div>
       )}
-
+  
       {activeScreen === "fs-screen" && (
-        <div className="screen fs-screen">
+        <div className="screen fs-screen" style={{ color: 'black', textAlign: 'center' }}>
           <h2>Share Files</h2>
           <input type="file" onChange={handleFileChange} />
-
-          <div className="uploaded-files">
+  
+          <div className="uploaded-files" style={{ color: 'black', textAlign: 'center' }}>
             {uploadedFiles.map((file, index) => (
               <div key={index} className="file-details">
                 <p>File Name: {file.name}</p>
@@ -121,6 +121,7 @@ const SenderApp = () => {
       )}
     </div>
   );
+  
 };
 
 export default SenderApp;

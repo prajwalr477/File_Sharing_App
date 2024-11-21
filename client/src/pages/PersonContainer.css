@@ -1,0 +1,78 @@
+.person-container {
+    display: flex; /* Arrange child elements in a row */
+    justify-content: center; /* Center the people cards horizontally */
+    align-items: flex-start; /* Align items to the top of the container */
+    padding: 40px 150px;
+    gap: 70px; /* Add space between person cards */
+    background-color: #189AB4;
+}Si
+
+.person1 {
+    display: flex; /* Flexbox for individual person card */
+    flex-direction: column; /* Stack image and text vertically */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 20px; /* Add space between the image and text */
+    color: #bb3f92;
+}
+
+.person1 img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%; /* Circular images */
+    object-fit: cover; /* Maintain aspect ratio of images */
+}
+
+/* Styling for text */
+.person1 .explain {
+    display: flex;
+    flex-direction: column; /* Stack text vertically */
+    gap: 10px; /* Add spacing between lines of text */
+    color: #fff;
+    text-align: center; /* Center the text inside the explanation */
+}
+
+.person1 .explain .name {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #fff; /* Text color for name */
+}
+
+.person1 .explain .role {
+    font-style: italic;
+    color: #fff; /* Text color for role */
+}
+
+.person1 .explain .email a {
+    font-size: 0.9rem;
+    color: #fff; /* Text color for email link */
+    text-decoration: underline;
+    cursor: pointer; /* Indicates interactivity */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .person-container {
+        flex-direction: column; /* Stack person cards vertically on smaller screens */
+        padding: 20px 40px; /* Adjust padding for mobile */
+        gap: 30px; /* Adjust gap for mobile */
+    }
+
+    .person1 img {
+        width: 200px; /* Make images smaller on mobile */
+        height: 200px;
+    }
+
+    .person1 .explain .name {
+        font-size: 1.25rem; /* Adjust name size for smaller screens */
+    }
+
+    .person1 .explain .role {
+        font-size: 1rem; /* Adjust role size for smaller screens */
+    }
+
+    .person1 .explain .email a {
+        font-size: 0.8rem; /* Adjust email link size for smaller screens */
+    }
+}
