@@ -7,8 +7,8 @@ const Modal = ({ isOpen, onClose, onConfirm }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Confirm Logout</h2>
-        <p>Are you sure you want to log out?</p>
+        <h2 className='logout'>Confirm Logout</h2>
+        <p className='logout_para'>Are you sure you want to log out?</p>
         <div className="modal-actions">
           <button className="cancel-btn" onClick={onClose}>Cancel</button>
           <button className="confirm-btn" onClick={onConfirm}>Yes</button>
