@@ -4,10 +4,7 @@
    box-sizing: border-box;
  }
  
- body {
-   background-color: #be8e8e;
-   font-family: "Roboto", sans-serif;
- }
+
  
  .screen {
    display: none; /* All screens are hidden by default */

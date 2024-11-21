@@ -38,14 +38,7 @@ const io = new Server(server, {
   },
 });
 
-// In-memory store for connected users
-const users = {};
 
-// In-memory store for pending requests
-const pendingRequests = {}; // { toUsername: [{ fromUsername, socketId }] }
-
-// File sharing: In-memory file transfer state
-const fileSessions = {}; // { sessionId: { senderSocket, receiverSocket, metadata, buffer } }
 
 io.on('connection', (socket) => {
   console.log(`Client connected: ${socket.id}`);
@@ -100,73 +93,5 @@ server.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
 
-
-  /**
-   * Peer-to-peer connection and signaling events (uncomment if needed)
-   */
-  // socket.on('register-user', (username) => {
-  //   users[username] = socket.id;
-  //   console.log(`User registered: ${username} with socket ID: ${socket.id}`);
-
-  //   if (pendingRequests[username]) {
-  //     pendingRequests[username].forEach((request) => {
-  //       io.to(socket.id).emit('connection-request', { fromUsername: request.fromUsername });
-  //     });
-  //     delete pendingRequests[username];
-  //   }
-  // });
-
-  // socket.on('connection-request', ({ toUsername, fromUsername }) => {
-  //   const targetSocketId = users[toUsername];
-
-  //   if (targetSocketId) {
-  //     io.to(targetSocketId).emit('new-notification', {
-  //       sender: fromUsername,
-  //       message: `${fromUsername} wants to connect.`,
-  //     });
-  //   } else {
-  //     console.log(`User ${toUsername} is offline. Storing request.`);
-  //     if (!pendingRequests[toUsername]) {
-  //       pendingRequests[toUsername] = [];
-  //     }
-  //     pendingRequests[toUsername].push({ fromUsername, socketId: socket.id });
-  //   }
-  // });
-
-  // socket.on('connection-response', ({ toUsername, accepted }) => {
-  //   const targetSocketId = users[toUsername];
-  //   if (targetSocketId) {
-  //     const message = accepted
-  //       ? `${toUsername} accepted your request.`
-  //       : `${toUsername} declined your request.`;
-  //     io.to(targetSocketId).emit(accepted ? 'connection-approved' : 'connection-denied', { message });
-  //   }
-  // });
-
-  // socket.on('offer', (offer, toUsername) => {
-  //   const targetSocketId = users[toUsername];
-  //   if (targetSocketId) {
-  //     io.to(targetSocketId).emit('offer', offer);
-  //   }
-  // });
-
-  // socket.on('answer', (answer, toUsername) => {
-  //   const targetSocketId = users[toUsername];
-  //   if (targetSocketId) {
-  //     io.to(targetSocketId).emit('answer', answer);
-  //   }
-  // });
-
-  // socket.on('ice-candidate', (candidate, toUsername) => {
-  //   const targetSocketId = users[toUsername];
-  //   if (targetSocketId) {
-  //     io.to(targetSocketId).emit('ice-candidate', candidate);
-  //   }
-  // });
-
-  // socket.on('logout', (username) => {
-  //   delete users[username];
-  //   console.log(`User logged out: ${username}`);
-  // });
 
   
