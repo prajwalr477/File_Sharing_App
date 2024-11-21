@@ -2,6 +2,8 @@ import React, { useState } from 'react';  // Import useState from React
 import { useNavigate, Link } from 'react-router-dom';  // Import Link from react-router-dom
 import Modal from '../components/Modal';
 import './Header.css';
+import { socket } from '../socket';
+
 import logo from '../assets/logo.jpg';
 
 
@@ -22,9 +24,22 @@ export default function Header() {
 
   // Confirm logout and redirect to login
   const handleLogoutConfirm = () => {
-    localStorage.removeItem('token');  // Remove token from localStorage
-    setIsModalOpen(false);  // Close the modal
-    navigate('/');  // Redirect to login page
+    // Emit logout event (optional)
+    socket.emit('logout', { user: localStorage.getItem('username') });
+
+    // Disconnect the socket
+    console.log('Socket connected before disconnect:', socket.connected);
+    console.log('Disconnecting socket...');
+    socket.disconnect();
+    console.log('Socket connected after disconnect:', socket.connected);
+
+    // Clear token and user info from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+
+    // Close modal and navigate to login
+    setIsModalOpen(false);
+    navigate('/');
   };
 
 

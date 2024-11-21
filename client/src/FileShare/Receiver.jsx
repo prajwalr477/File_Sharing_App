@@ -11,9 +11,13 @@ const ReceiverApp = () => {
   const fileBufferRef = useRef(null);
   const transmittedRef = useRef(0);
   const fileMetadataRef = useRef(null);
+  const PORT = process.env.PORT || 5000;
+  const socketUrl = process.env.NODE_ENV === 'production'
+  ? `https://fileshare-copy1.onrender.com`
+  : `http://localhost:${PORT}`;
 
   useEffect(() => {
-    socket.current = io("http://localhost:5000");
+    socket.current = io(socketUrl);
 
     socket.current.on("file-meta", (metadata) => {
       console.log("Metadata received:", metadata);

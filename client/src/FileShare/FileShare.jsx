@@ -10,9 +10,13 @@ const SenderApp = () => {
   const socket = useRef(null);
   const joinIDRef = useRef("");
   const fileBufferRef = useRef(null);
+  const PORT = process.env.PORT || 5000;
+  const socketUrl = process.env.NODE_ENV === 'production'
+  ? `https://fileshare-copy1.onrender.com`
+  : `http://localhost:${PORT}`;
 
   useEffect(() => {
-    socket.current = io("http://localhost:5000");
+    socket.current = io(socketUrl);
 
     socket.current.on("init", (uid) => {
       console.log(`Receiver connected with ID: ${uid}`);
