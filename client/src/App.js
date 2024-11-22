@@ -18,8 +18,8 @@ import Home from './pages/Home';
 const App = () => {
   // Define the routes
   const routes = [
-    { path: '/', element: <Auth /> }, // Login page
-    { path: '/home', element: <HomePage /> }, // Home page
+    { path: '/', element: <Auth /> }, 
+    { path: '/home', element: <ProtectedRoute><HomePage /></ProtectedRoute> }, 
     {
       path: '/file-share', 
       element: <ProtectedRoute><SenderApp /></ProtectedRoute> // Protected route for FileShare

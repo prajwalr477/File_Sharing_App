@@ -85,7 +85,7 @@ const Auth = ({ onAuthSuccess }) => {
     }
 
     try {
-      const response = await axios.post(`https://fileshare-copy1.onrender.com/auth/login`, loginData);
+      const response = await axios.post(`https://file-sharing-app-af8z.onrender.com/auth/login`, loginData);
       if (response.data.token) {
         alert('Login successful!');
         localStorage.setItem('token', response.data.token); // Save JWT token
@@ -109,7 +109,7 @@ const Auth = ({ onAuthSuccess }) => {
     if (!isValid) return;
 
     try {
-      const response = await axios.post(`https://fileshare-copy1.onrender.com/auth/register`, {
+      const response = await axios.post(`https://file-sharing-app-af8z.onrender.com/auth/register`, {
         name: signupData.name,
         password: signupData.password,
         confirmPassword: signupData.confirmPassword,

@@ -16,7 +16,7 @@ const SenderApp = () => {
   : `http://localhost:${PORT}`;
 
   useEffect(() => {
-    socket.current = io(socketUrl);
+    socket.current = io(`https://file-sharing-app-af8z.onrender.com`);
 
     socket.current.on("init", (uid) => {
       console.log(`Receiver connected with ID: ${uid}`);
