@@ -11,6 +11,7 @@ export const uploadImage = async (request, response) => {
     
     try {
         const file = await File.create(fileObj);
+        console.log("File saved to database:", file);
         response.status(200).json({ path: `https://file-sharing-app-af8z.onrender.com/share-link/file/${file._id}`});
     } catch (error) {
         console.error(error.message);
@@ -21,6 +22,10 @@ export const uploadImage = async (request, response) => {
 export const getImage = async (request, response) => {
     try {   
         const file = await File.findById(request.params.fileId);
+        if (!file) {
+            console.error("File not found in database");
+            return response.status(404).json({ msg: "File not found" });
+        }
         
         file.downloadCount++;
 
