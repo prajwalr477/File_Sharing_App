@@ -11,9 +11,13 @@ const Auth = ({ onAuthSuccess }) => {
   const [passwordStrength, setPasswordStrength] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const PORT = process.env.PORT || 5000;
+  const socketUrl = process.env.NODE_ENV === 'production'
+  ? `https://fileshare-copy1.onrender.com`
+  : `http://localhost:${PORT}`;
 
   // Initialize socket connection
-  const socket = io('http://localhost:5000'); // Make sure this URL matches your backend URL
+  const socket = io(socketUrl); // Make sure this URL matches your backend URL
 
   useEffect(() => {
     // Check if user is already logged in and redirect
@@ -81,7 +85,7 @@ const Auth = ({ onAuthSuccess }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', loginData);
+      const response = await axios.post(`https://fileshare-copy1.onrender.com/auth/login`, loginData);
       if (response.data.token) {
         alert('Login successful!');
         localStorage.setItem('token', response.data.token); // Save JWT token
@@ -105,7 +109,7 @@ const Auth = ({ onAuthSuccess }) => {
     if (!isValid) return;
 
     try {
-      const response = await axios.post('http://localhost:5000/auth/register', {
+      const response = await axios.post(`https://fileshare-copy1.onrender.com/auth/register`, {
         name: signupData.name,
         password: signupData.password,
         confirmPassword: signupData.confirmPassword,
