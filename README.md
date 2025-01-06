@@ -1,10 +1,10 @@
 # Hiii
 How to run???
 
-do npm install in both client and server
-
-in server
+do npm install in both client and server folders
+run the below commands
+/server
 node index.js
 
-in client
+/client
 npm start
